@@ -1,0 +1,10 @@
+{
+  "id": "mermaid-copy",
+  "name": "Mermaid Copy",
+  "version": "1.0.0",
+  "minAppVersion": "1.4.0",
+  "description": "Adds a copy button to rendered Mermaid diagrams in Live Preview. Copy as PNG or SVG with one click.",
+  "author": "MBlogs",
+  "authorUrl": "https://github.com/MBlogs",
+  "isDesktopOnly": false
+}

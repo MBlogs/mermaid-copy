@@ -1,0 +1,17 @@
+{
+  "name": "obsidian-mermaid-copy",
+  "version": "1.0.0",
+  "description": "Copy Mermaid diagrams as SVG or PNG from Obsidian",
+  "main": "main.js",
+  "license": "MIT",
+  "scripts": {
+    "dev": "node esbuild.config.mjs",
+    "build": "node esbuild.config.mjs production"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "esbuild": "^0.20.0",
+    "obsidian": "latest",
+    "typescript": "^5.3.0"
+  }
+}
