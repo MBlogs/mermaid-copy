@@ -57,6 +57,12 @@ export async function copySvgToClipboard(svg: SVGSVGElement): Promise<void> {
 
 export async function copyPngToClipboard(svg: SVGSVGElement): Promise<void> {
   const blob = await svgToPngBlob(svg);
+
+  if (typeof ClipboardItem === "undefined" || !navigator.clipboard.write) {
+    new Notice("PNG copy is not supported on this device — try SVG format in settings");
+    return;
+  }
+
   await navigator.clipboard.write([
     new ClipboardItem({ "image/png": blob }),
   ]);
