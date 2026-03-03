@@ -76,7 +76,7 @@ export default class MermaidCopyPlugin extends Plugin {
       copyBtn.setAttribute("aria-label", "Copy diagram");
       setIcon(copyBtn, "copy");
 
-      copyBtn.addEventListener("click", async (e) => {
+      copyBtn.addEventListener("click", (e) => {
         e.preventDefault();
         e.stopPropagation();
         const svg = block.querySelector<SVGSVGElement>(".mermaid svg");
@@ -84,22 +84,20 @@ export default class MermaidCopyPlugin extends Plugin {
           new Notice("No diagram found");
           return;
         }
-        try {
-          if (this.settings.copyFormat === "svg") {
-            await copySvgToClipboard(svg);
-          } else {
-            await copyPngToClipboard(svg);
-          }
+        const copyPromise = this.settings.copyFormat === "svg"
+          ? copySvgToClipboard(svg)
+          : copyPngToClipboard(svg);
+        copyPromise.then(() => {
           setIcon(copyBtn, "check");
           const t = setTimeout(() => {
             setIcon(copyBtn, "copy");
             this.activeTimeouts.delete(t);
           }, 2000);
           this.activeTimeouts.add(t);
-        } catch (err) {
+        }).catch((err) => {
           new Notice("Failed to copy diagram");
           console.error(err);
-        }
+        });
       });
 
       editBtn.insertAdjacentElement("afterend", copyBtn);
@@ -127,9 +125,9 @@ class MermaidCopySettingTab extends PluginSettingTab {
           .addOption("png", "PNG (image)")
           .addOption("svg", "SVG (markup)")
           .setValue(this.plugin.settings.copyFormat)
-          .onChange(async (value) => {
+          .onChange((value) => {
             this.plugin.settings.copyFormat = value as CopyFormat;
-            await this.plugin.saveSettings();
+            void this.plugin.saveSettings();
           })
       );
   }
